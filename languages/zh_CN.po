@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Xblog\n"
+"POT-Creation-Date: 2017-02-15 14:03+0800\n"
+"PO-Revision-Date: 2017-02-15 14:04+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SearchPath-0: languages\n"
+"X-Poedit-SearchPath-1: .\n"
+"X-Poedit-SearchPathExcluded-0: js\n"
+"X-Poedit-SearchPathExcluded-1: css\n"
+"X-Poedit-SearchPathExcluded-2: fonts\n"
+"X-Poedit-SearchPathExcluded-3: 123\n"
+
+#: functions.php:65
+msgid "Main menu"
+msgstr "主菜单"
+
+#: functions.php:66
+msgid "Footer menu"
+msgstr "页脚菜单"
+
+#: functions.php:121
+msgid "Please view previous page"
+msgstr "请浏览上一页"
+
+#: functions.php:123
+msgid "This is frist page!"
+msgstr "这已经是第一页"
+
+#: functions.php:127
+msgid "Please view next page"
+msgstr "请浏览下一页"
+
+#: functions.php:129
+msgid "This is last page!"
+msgstr "这已经是最后一页"
+
+#: functions.php:138
+msgid "Excerpt"
+msgstr "摘要"
+
+#: functions.php:189
+msgid "Where is :"
+msgstr "当前位置:"
+
+#: functions.php:192
+msgid "Home"
+msgstr "首页"
+
+#: functions.php:248
+#, php-format
+msgid "Search result: %s"
+msgstr "搜索结果 : %s"
+
+#: functions.php:252
+#, php-format
+msgid "Post tags: %s"
+msgstr "文章标签 : %s"
+
+#: functions.php:258
+#, php-format
+msgid "Author : %s"
+msgstr "作者 : %s"
+
+#: functions.php:262
+msgid "Nothing "
+msgstr "什么也没有"
+
+#: functions.php:267
+#, php-format
+msgid " Page %s"
+msgstr "第 %s 页"
+
+#: index.php:41 page.php:38 single.php:38
+msgid "Tags :"
+msgstr "标签:"
+
+#: index.php:42
+msgid "Read more"
+msgstr "阅读更多"
+
+#: index.php:48
+msgid "This website is nothing,please contact Admin of this website! "
+msgstr "当前网站没有内容,请联系管理员!"
+
+#: page.php:20 single.php:20
+msgid "Update Time"
+msgstr "更新时间"
+
+#: page.php:21 single.php:21
+msgid "Author"
+msgstr "作者"
+
+#: page.php:22 single.php:22
+msgid "Tags"
+msgstr "标签:"
+
+#~ msgid "( Page %s )"
+#~ msgstr "第 %s 页"
+
+#~ msgid "当前位置:"
+#~ msgstr "当前位置:"
+
+#~ msgid "首页"
+#~ msgstr "首页"
+
+#~ msgid "搜索结果: %s"
+#~ msgstr "搜索结果: %s"
+
+#~ msgid "文章标签: %s"
+#~ msgstr "文章标签: %s"
+
+#~ msgid "作者文章: %s"
+#~ msgstr "作者文章: %s"
+
+#~ msgid "什么都没有"
+#~ msgstr "什么都没有"
+
+#~ msgid "( 第 %s 页 )"
+#~ msgstr "( 第 %s 页 )"
+
+#~ msgid "I am Chinese!"
+#~ msgstr "我是中文"

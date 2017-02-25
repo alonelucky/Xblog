@@ -1,0 +1,42 @@
+/*
+Theme Name: Xblog
+Theme URI: http://xiaqiubo.top
+Author: Xiao
+Author URI: http://xiaqiubo.top
+Description: 萧逸雨自制博客主题
+Version: 1.0
+Text Domain: twentyseventeen
+Tags: 响应式布局,博客,蓝色
+*/
+
+.post-categories{
+	display:inline-block;	
+}
+.post-categories li{
+	list-style: none;
+	display:inline-block;
+}
+.col-md-3 .panel ul{
+	list-style: none;
+	position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.col-md-3 .panel ul li{
+	margin-bottom:8px; 
+}
+.tagcloud{
+	padding: 10px;
+}
+.tagcloud a{
+	margin-left:8px; 
+}
+#searchform{
+	padding: 2px;
+}
+#searchform label{
+	
+}

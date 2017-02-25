@@ -1,0 +1,106 @@
+html,body{
+	font-family: '微软雅黑';
+}
+header{
+	height:250px;
+	padding:10px 50px 0;
+	background: url(../img/header-bg.jpg) repeat-x;
+	color:#fff;
+}
+header .logo-sapn{
+	font: 0/0 a;
+}
+header h1{
+
+}
+header h2{
+	font-size: 40px;
+	text-align: center;
+	letter-spacing: 10px;
+}
+header p{
+	font-size: 18px;
+	text-align: center;
+}
+.navbar-default{
+	background-color: #428bca;
+}
+.navbar-default .navbar-nav>li>a{
+	color: #fff;
+}
+.navbar-nav{
+	float: none;
+	width: 45%;
+}
+.navbar-nav li{
+	text-align: center;
+	width: 20%;
+	font-size: 16px;
+	font-weight: 800;
+}
+.navbar-nav li:hover{
+	background-color: #d9edf7;
+}
+main{
+	margin-top:15px; 
+}
+img{
+	padding:0;
+	margin:0;
+}
+a.navbar-brand{
+	padding:5px;
+}
+
+.post-title{
+	margin: 0;
+	padding: 10px 0 10px 20px;
+}
+.post-title a{
+	color:#fff;
+	text-decoration: none;
+}
+.post-content{
+	text-indent: 2em;
+}
+.thumbnail {
+	text-align: center;
+}
+.panel .label{
+	display: inline-block;
+	padding: 5px;
+	margin: 2px;
+}
+.panel .label a{
+	text-decoration: none;
+	color: #fff;
+}
+.panel .label:hover{
+	opacity:0.5;  
+}
+footer a{
+	color: #fff;
+	text-decoration: none;
+}
+footer .container{
+	height: 5rem;
+}
+footer p{
+	margin-top: 10px;
+}
+@media (min-width: 768px){
+	.navbar-nav {
+		width: 80%;
+	}
+	.navbar-nav li{
+		width:20%;
+	}
+}
+@media (max-width: 768px){
+	.navbar-nav {
+		width: 80%;
+	}
+	.navbar-nav li{
+		width:100%;
+	}
+}
