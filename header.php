@@ -1,3 +1,9 @@
+<?php
+	global $post;
+	if(!$_COOKIE[$post->ID]){
+		setcookie($post->ID,1);
+	}
+?>
 <!doctype html>
 <!-- [if lt IE 7]-->
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"></html>
@@ -19,12 +25,18 @@
         <meta name="description" content="<?php Xblog_description();?>"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0，maximum-scale=1.0, user-scalable=no">
 		<meta http-equiv="Cache-Control" content="no-siteapp" />		
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
-        <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory');?>/css/normalize.css"> <!--reset文件-->
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory');?>/css/main.css"> <!--bootstrap文件-->
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory');?>/css/style.css">
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_url');?>">
-        <script src="<?php bloginfo('stylesheet_directory');?>/js/vendor/modernizr-2.8.3.min.js"></script>
-
+		<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="<?php bloginfo('stylesheet_url');?>?v1.0">
+		<?php 
+			if(is_single()){
+				?>
+				<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory');?>/css/single.css">
+				<?php
+			}
+		?>
+		<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<?php wp_head();?>
     </head>

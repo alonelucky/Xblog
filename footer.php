@@ -6,10 +6,8 @@
 			</div>
 		</footer>
 
-        <script src="<?php bloginfo('stylesheet_directory');?>/js/vendor/jquery-1.12.0.min.js"></script>
-        <script src="<?php bloginfo('stylesheet_directory');?>/js/plugins.js"></script>
-        <script src="<?php bloginfo('stylesheet_directory');?>/js/main.js"></script>
 
+        <script src="<?php bloginfo('stylesheet_directory');?>/js/main.js"></script>
     </body>
 	<script>
 		$('#homecar').carousel({
@@ -17,4 +15,5 @@
 			pause:'hover',
 		});
 	</script>
+	<?php wp_footer();?>
 </html>

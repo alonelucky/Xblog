@@ -1,9 +1,133 @@
 <?php
-//增加特色图像
+//调用ajax实现文章点踩
+
+add_action('wp_ajax_xblog_ajax_views','Xblog_ajax_views_fun');
+add_action('wp_ajax_nopriv_xblog_ajax_views','Xblog_ajax_views_fun');
+function Xblog_ajax_fun(){
+	?>
+	<script>
+		jQuery(document).ready(function(){
+			var checkCookie = document.cookie;
+			$('.alert a.btn-success').click(function(){
+				if(!(checkCookie.indexOf('<?php echo get_the_ID();?>zan=1')>0)){
+					$.ajax({
+						type:'POST',
+						data:"zc=z&post=<?php echo get_the_ID();?>&action=xblog_ajax_views",
+						url:'<?php bloginfo('url');?>/wp-admin/admin-ajax.php',
+						success:function(data){
+							$('a.btn-success span').text(data);
+							var date = new Date();
+							var expires = date.getTime()+3600*24*30*1000;
+							document.cookie="<?php echo get_the_ID();?>zan=1,expires="+expires;
+						}
+					});
+				}
+			});
+			$('.alert a.btn-danger').click(function(){
+				if(!(checkCookie.indexOf('<?php echo get_the_ID();?>cai=1')>0)){
+					$.ajax({
+						type:'POST',
+						data:"zc=c&post=<?php echo get_the_ID();?>&action=xblog_ajax_views",
+						url:'<?php bloginfo('url');?>/wp-admin/admin-ajax.php',
+						success:function(data){
+							$('a.btn-danger span').text(data);
+							var date = new Date();
+							var expires = date.getTime()+3600*24*30*1000;
+							document.cookie="<?php echo get_the_ID();?>cai=1,expires="+expires;
+						}
+					});
+				}
+			});
+		});
+	</script>
+	<?php
+}
+
+function Xblog_ajax_views_fun(){
+	
+	$post_zc = $_POST['zc'];
+	$post = $_POST['post'];
+	
+	if($post_zc=='z'&&$post){
+		$zan = get_post_meta($post,'zan',true);
+		if(!update_post_meta($post,'zan',($zan+1))){
+			add_post_meta($post,'zan',1,true);
+		}
+		echo  get_post_meta($post,'zan',true);
+	}
+	
+	if($post_zc=='c'&&$post){
+		$cai = get_post_meta($post,'cai',true);
+		if(!update_post_meta($post,'cai',($cai+1))){
+			add_post_meta($post,'cai',1,true);
+		}
+		echo get_post_meta($post,'cai',true);
+	}
+	
+	wp_die();
+}
+
+
+//自定义文章浏览次数统计
+
+add_action('wp_head','Xblog_post_views');
+
+function Xblog_post_views(){
+	global $post;
+	$id= $post->ID;
+	if(!$_COOKIE[$id]){
+		if(is_single()){
+			$views = get_post_meta($id,'views',true);
+			if(!update_post_meta($id,'views',($views+1))){
+				add_post_meta($id,'views',1,true);
+			}
+		}	
+	}
+}
+// =======================================================
+// 
+//                      自定义样式和脚本挂载
+// =======================================================
+function Xblog_self_style(){
+	$style = get_option('Xblog_options_2')['self_style'];
+	echo '<style>'.$style.'</style>';
+}
+
+function Xblog_self_script(){
+	$script = get_option('Xblog_options_2')['self_script'];
+	echo '<script>'.$script.'</script>';
+}
+add_action('wp_head','Xblog_self_style',999);
+add_action('wp_footer','Xblog_self_script');
+
+// =======================================================
+// 
+//                      主题中心
+// =======================================================
+add_action('admin_menu','Xblog_theme_options');
+function Xblog_theme_options(){
+	//增加主题设置项
+	add_theme_page(
+		__('Theme Options','Xblog'),
+		__('Theme Settings','Xblog'),
+		'administrator',
+		'Xblog_theme_options',
+		'Xblog_theme_options_fun'	
+	);
+	//引入主题函数文件
+	include('functions/Xblog_options_views_funs.php');
+}
+
+// =======================================================
+// 
+//                      增加特色图像
+// =======================================================
 add_theme_support('post-thumbnails');
-//调用主题设置中心
-require get_template_directory(). '/theme-optipons.php';
-//定义网站title
+
+// =======================================================
+// 
+//                      定义网站title
+// =======================================================
 function Xblog_name(){
 	if(is_home()||is_front_page()){
 		//如果是首页则只输出博客名称和描述
@@ -13,7 +137,12 @@ function Xblog_name(){
 		bloginfo( 'name' ).wp_title('-');
 	}
 }
-//定义网站meta关键字标签
+
+// =======================================================
+// 
+//                      定义网站meta关键字标签
+// =======================================================
+//
 function Xblog_description(){
 	if(is_home()||is_front_page()){
 		//如果是首页则输出博客描述
@@ -60,24 +189,39 @@ function Xblog_keywords(){
 		echo wp_title('',0);
 	}
 }
-
-//主导航注册
+// =======================================================
+// 
+//                      主导航注册
+// 
+// =======================================================
 register_nav_menus( array(
 	//注册导航栏
 	'header_menu'=>__('Main menu','Xblog'),
 	'footer_menu'=>__('Footer menu','Xblog')
 ) );
-
-//多语言支持
+// =======================================================
+// 
+//                      多语言支持
+// 
+// =======================================================
 add_action('after_setup_theme', 'Xblog_theme_setup'); //定义在主题调用后启用Xblog_theme_setup函数
 function Xblog_theme_setup(){
 	//定义函数多语言域,及加载文件夹
     load_theme_textdomain('Xblog', get_template_directory() . '/languages');
 }
-//添加链接栏目
-add_filter('pre_option_link_manager_enabled','__return_true');
 
-//注册小工具
+// =======================================================
+// 
+//                      添加链接栏目
+// 
+// =======================================================
+
+add_filter('pre_option_link_manager_enabled','__return_true');
+// =======================================================
+// 
+//                      注册小工具
+// 
+// =======================================================
 $xblog_sidebar1=array(
 		'name'=>'近期文章',
 		'id'=>'myPost1',
@@ -112,35 +256,43 @@ register_sidebar( $xblog_sidebar1 );
 register_sidebar( $xblog_sidebar2 );
 register_sidebars( 3,$xblog_footer_bar );
 
-//分页链接自定义
-//dis_class:禁用时的样式
-//pre_class:上一页样式
-//next_class:下一页样式
-function Xblog_posts_nav_link($dis_class,$pre_class,$next_class)
-{
-	if(is_home()||is_front_page()||is_category()||is_tag()){
-		if( get_previous_posts_link() ){
-			echo '<li class="'.$pre_class.'">'.get_previous_posts_link(__('Please view previous page','Xblog')).'</li>';
-		}else{
-			echo '<li class="'.$pre_class.' '.$dis_class.'"><a>'.__('This is frist page!','Xblog').'</a></li>';
-		}
+// =======================================================
+//				分页链接自定义
+//				dis_class:禁用时的样式
+//				pre_class:上一页样式
+// 				next_class:下一页样式
+// =======================================================
 
-		if( get_next_posts_link() ){
-			echo '<li class="'.$next_class.'">'.get_next_posts_link(__('Please view next page','Xblog')).'</li>';
-		}else{
-			echo '<li class="'.$next_class.' '.$dis_class.'"><a>'.__('This is last page!','Xblog').'</a></li>';
-		}
+function Xblog_post_nav_link($dis_class,$pre_class,$next_class)
+{
+	if( get_previous_post() ){
+		echo '<li class="'.$pre_class.'">'.get_previous_post_link('%link','%title',true).'</li>';
+	}else{
+		echo '<li class="'.$pre_class.' '.$dis_class.'"><a>'.__('This is frist page!','Xblog').'</a></li>';
 	}
+
+	if( get_next_post() ){
+		echo '<li class="'.$next_class.'">'.get_next_post_link('%link','%title',true).'</li>';
+	}else{
+		echo '<li class="'.$next_class.' '.$dis_class.'"><a>'.__('This is last page!','Xblog').'</a></li>';
+	}
+
 }
-//
-//为page添加摘要输入框
-//
+// =======================================================
+// 
+//              注册小工为page添加摘要输入框具
+// 
+// =======================================================
+
 add_action( 'admin_menu', 'my_page_excerpt_meta_box' );
 function my_page_excerpt_meta_box() {
     add_meta_box( 'postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', 'page', 'normal', 'core' );
 }
-//为page添加分类和标签
-//为WordPress页面添加标签和分类
+// =======================================================
+// 
+//              为page添加分类和标签
+// 
+// =======================================================
 class PTCFP{
 	function __construct(){
     add_action( 'init', array( $this, 'taxonomies_for_pages' ) );
@@ -178,11 +330,13 @@ class PTCFP{
 } // PTCFP
 $ptcfp = new PTCFP();
 
-
+// =======================================================
 /**
  * WordPress 添加面包屑导航 
  * https://www.wpdaxue.com/wordpress-add-a-breadcrumb.html
  */
+// =======================================================
+
 function xblog_breadcrumbs() {
 	$delimiter = '»'; // 分隔符
 	$before = '<li class="active">'; // 在当前链接前插入

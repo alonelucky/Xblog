@@ -1,0 +1,19 @@
+.wrap .options_1{
+	width:30em;
+}
+.option-nav li{
+	display:inline-block;
+	padding: 0.5em 2em;
+	border :1px solid #999;
+	cursor:pointer;
+}
+li.active{
+	background-color:#32373C;
+	color:#fff;	
+}
+div.hidden{
+	display:none;
+}
+div.active{
+	display:block;
+}
