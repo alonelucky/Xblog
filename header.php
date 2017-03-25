@@ -36,6 +36,13 @@
 				<?php
 			}
 		?>
+		<?php
+			if(is_page('liuyan')){
+				?>
+				<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory');?>/css/liuyan.css">
+				<?php
+			}
+		?>
 		<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 		<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<?php wp_head();?>

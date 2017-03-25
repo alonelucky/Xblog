@@ -1,4 +1,89 @@
 <?php
+//使用ajax实现留言版点赞
+function Xblog_liuyan_zan_fun(){
+	?>
+	<script>
+		jQuery(document).ready(function($){
+			var checkCookie = document.cookie;
+			// 当点击时触发
+			$('span.zan').click(function(){
+				// 获取当前点击的值,将当前变量存储到window中
+				window.comment = $(this);
+				//获取当前评论id
+				$id = window.comment.find('.comment_id').text();
+				// 如果当前cookie中存在当前评论值,则传入参数'zan=0'取消赞,并取消样式
+				$id_check = $id+'comments=1';
+				$style = window.comment.find('.glyphicon').attr('class');
+				if( ( checkCookie.indexOf($id_check) ) > 0 ){
+					window.comment.find('.glyphicon').removeClass('yes');
+					$.ajax({
+						type:'post',
+						data:'zan=0&id='+$id+'&action=Xblog_comment_liuyan',
+						url:'<?php bloginfo('url');?>/wp-admin/admin-ajax.php',
+						success:function(data){
+							window.comment.find('.zan_count').text(data);
+							var date = new Date();
+							var expires = date.getTime()+3600*24;
+							document.cookie=$id+'comment_zan=0,expires='+expires;
+						}
+					});
+				}else{
+					window.comment.find('.glyphicon').addClass('yes');
+					$.ajax({
+						type:'post',
+						data:'zan=1&id='+$id+'&action=Xblog_comment_liuyan',
+						url:'<?php bloginfo('url');?>/wp-admin/admin-ajax.php',
+						success:function(data){
+							window.comment.find('.zan_count').text(data);
+							var date = new Date();
+							var expires = date.getTime()+3600*24;
+							document.cookie=$id+'comment_zan=1,expries='+expires;
+						}
+					});
+				}
+			});
+		});
+	</script>
+	<?php
+}
+add_action('wp_ajax_nopriv_Xblog_comment_liuyan','Xblog_comment_liuyan_fun');
+add_action('wp_ajax_Xblog_comment_liuyan','Xblog_comment_liuyan_fun');
+function Xblog_comment_liuyan_fun(){
+	//获取传入的当前评论ID
+	$id = $_POST['id'];
+	$zan_can = $_POST['zan'];
+	$zan = get_comment_meta($id,'zan',true);
+	$class = get_comment_meta($id,'_class',true);
+	
+	if($zan_can=='0'){
+		//移除class
+		delete_comment_meta($id,'_class');
+		//存储数值
+		if($zan){
+			if(!update_comment_meta($id,'zan',($zan-1))){
+				add_comment_meta($id,'zan',0,true);
+			}
+		}
+		//只返回数值即可
+		echo get_comment_meta($id,'zan',true);
+	}
+	
+	if($zan_can=='1'){
+		//存储class
+		add_comment_meta($id,'_class','yes');
+
+		//存储数值
+		if(!update_comment_meta($id,'zan',($zan+1))){
+			add_comment_meta($id,'zan',1,true);
+		}
+		//只返回数值即可
+		echo get_comment_meta($id,'zan',true);
+	}
+
+	wp_die();
+}
+
+
 //调用ajax实现文章点踩
 
 add_action('wp_ajax_xblog_ajax_views','Xblog_ajax_views_fun');
@@ -6,10 +91,14 @@ add_action('wp_ajax_nopriv_xblog_ajax_views','Xblog_ajax_views_fun');
 function Xblog_ajax_fun(){
 	?>
 	<script>
-		jQuery(document).ready(function(){
+		jQuery(document).ready(function($){
+			//获取当前页面cookie
 			var checkCookie = document.cookie;
+			//当点击按钮时触发函数
 			$('.alert a.btn-success').click(function(){
+				//如果在当前cookie中找不到对应文章id,则执行ajax
 				if(!(checkCookie.indexOf('<?php echo get_the_ID();?>zan=1')>0)){
+					//执行ajax操作
 					$.ajax({
 						type:'POST',
 						data:"zc=z&post=<?php echo get_the_ID();?>&action=xblog_ajax_views",
@@ -20,9 +109,11 @@ function Xblog_ajax_fun(){
 							var expires = date.getTime()+3600*24*30*1000;
 							document.cookie="<?php echo get_the_ID();?>zan=1,expires="+expires;
 						}
-					});
+					}); //data   传入参数当前文章ID
+						// 执行成功,则将值赋予当前页面.且写入cookie
 				}
 			});
+			
 			$('.alert a.btn-danger').click(function(){
 				if(!(checkCookie.indexOf('<?php echo get_the_ID();?>cai=1')>0)){
 					$.ajax({
@@ -44,15 +135,17 @@ function Xblog_ajax_fun(){
 }
 
 function Xblog_ajax_views_fun(){
-	
+	//获取传入参数
 	$post_zc = $_POST['zc'];
 	$post = $_POST['post'];
-	
+	//如果传入参数为z,则为点赞按钮,处理方法如下
 	if($post_zc=='z'&&$post){
 		$zan = get_post_meta($post,'zan',true);
+		//更新值
 		if(!update_post_meta($post,'zan',($zan+1))){
 			add_post_meta($post,'zan',1,true);
 		}
+		//返回值
 		echo  get_post_meta($post,'zan',true);
 	}
 	
@@ -73,11 +166,15 @@ function Xblog_ajax_views_fun(){
 add_action('wp_head','Xblog_post_views');
 
 function Xblog_post_views(){
+	//获取全局$post ID
 	global $post;
 	$id= $post->ID;
+	//如果cookie中不存在当前文章ID
 	if(!$_COOKIE[$id]){
+		//当前页面为文章页
 		if(is_single()){
 			$views = get_post_meta($id,'views',true);
+			//更新值
 			if(!update_post_meta($id,'views',($views+1))){
 				add_post_meta($id,'views',1,true);
 			}

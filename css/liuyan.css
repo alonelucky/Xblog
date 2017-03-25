@@ -1,0 +1,12 @@
+.glyphicon{
+	color:#ccc;
+}
+span.zan{
+	cursor:pointer;
+}
+.glyphicon:hover{
+	color:#eb7350;
+}
+.yes{
+	color:#eb7350;
+}
